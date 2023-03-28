@@ -1,4 +1,10 @@
 
+import java.awt.event.ActionEvent;
+import java.net.Socket;
+import java.awt.event.ActionListener;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import javax.swing.ImageIcon;
 
 public class Interfaz extends javax.swing.JFrame {
@@ -6,6 +12,11 @@ public Interfaz() {
         initComponents();
         setIconImage( new ImageIcon("logo.jpeg").getImage());
     }
+    
+public void componentes() {
+        EnviaTexto mievento = new EnviaTexto();
+}
+        
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -149,6 +160,52 @@ public Interfaz() {
                 new Interfaz().setVisible(true);
             }
         });
+    }
+        
+    private class EnviaTexto implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                Socket socket = new Socket("192.168.1.254",9999);
+                DataOutputStream flujo_salida = new DataOutputStream(socket.getOutputStream());
+                flujo_salida.writeUTF(jTextArea1.getText());
+                flujo_salida.close();
+                
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        
+    }
+        
+    class PaqueteEnvio {
+        private String nick, ip, mensaje;
+
+        public String getNick() {
+            return nick;
+        }
+
+        public void setNick(String nick) {
+            this.nick = nick;
+        }
+
+        public String getIp() {
+            return ip;
+        }
+
+        public void setIp(String ip) {
+            this.ip = ip;
+        }
+
+        public String getMensaje() {
+            return mensaje;
+        }
+
+        public void setMensaje(String mensaje) {
+            this.mensaje = mensaje;
+        }
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
